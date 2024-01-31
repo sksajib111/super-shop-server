@@ -32,18 +32,25 @@ async function run() {
 
     const menuCollection = client.db("superShopDB").collection("menu");
     const reviewCollection = client.db("superShopDB").collection("reviews");
+    const cartCollection = client.db("superShopDB").collection("carts");
 
     app.get('/menu', async(req, res) =>{
       const result = await menuCollection.find().toArray();
       res.send(result);
-    })
+    });
 
     app.get('/reviews', async(req, res) =>{
       const result = await reviewCollection.find().toArray();
       res.send(result);
-    })
+    });
 
-
+    // cart collection
+    app.post('/carts', async(req,res)=>{
+      const item = req.body;
+      console.log(item);
+      const result = await cartCollection.insertOne(item);
+      res.send(result);
+    });
 
 
     // Send a ping to confirm a successful connection
