@@ -30,8 +30,16 @@ async function run() {
     await client.connect();
 
     const menuCollection = client.db("superShopDB").collection("menu");
+    const userCollection = client.db("superShopDB").collection("users");
     const reviewCollection = client.db("superShopDB").collection("reviews");
     const cartCollection = client.db("superShopDB").collection("carts");
+
+    // users related api
+    app.post('/users', async (req, res)=>{
+      const user = req.body;
+      const result = await userCollection.insertOne(user);
+      res.send(result);
+    });
 
     app.get("/menu", async (req, res) => {
       const result = await menuCollection.find().toArray();
@@ -46,7 +54,7 @@ async function run() {
     // cart collection
     app.post("/carts", async (req, res) => {
       const item = req.body;
-      console.log(item);
+      // console.log(item);
       const result = await cartCollection.insertOne(item);
       res.send(result);
     });
